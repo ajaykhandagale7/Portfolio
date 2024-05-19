@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from "react";
 import './App.css';
 
+
 function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(()=>{
+    fetch("http://localhost:8000/message")
+    .then((res)=>res.json())
+    .then((data)=>setMessage(data));
+  },[])
+
+  console.log(message);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <table>
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+        </thead>
+        <tbody>
+          { message.map((person)=>
+          (
+            <tr>
+              <td>{person.id}</td>
+              <td>{person.name}</td>
+              <td>{person.age}</td>
+            </tr>
+          ))
+        }
+        </tbody>
+      </table>
     </div>
   );
 }
